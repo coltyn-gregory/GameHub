@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Infrastructure/">
+    <Project Path="GameHub.Infrastructure/GameHub.Persistence/GameHub.Persistence.csproj" Id="491a58c3-5ba6-4acc-80d4-9a1fe899689f" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../../.editorconfig" />
+    <File Path="../../.gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="NuGet.config" />
+  </Folder>
+  <Project Path="GameHub.API/GameHub.API.csproj" Id="55b752b1-6940-4891-adf5-4c6b537dbb1a" />
+  <Project Path="GameHub.Application/GameHub.Application.csproj" Id="31241251-0fd5-4dc2-9f41-eed6d566230e" />
+  <Project Path="GameHub.Domain/GameHub.Domain.csproj" Id="4c2954ea-a56f-444e-b9c4-70814d081c5e" />
+</Solution>
