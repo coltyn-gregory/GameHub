@@ -18,6 +18,7 @@ public static class DependencyInjection
                 sql => sql.MigrationsAssembly(typeof(GameHubDbContext).Assembly.FullName)));
 
         services.AddScoped<IGameReadRepository, GameReadRepository>();
+        services.AddScoped<IGameRepository, GameRepository>();
 
         return services;
     }

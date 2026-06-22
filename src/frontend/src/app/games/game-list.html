@@ -37,7 +37,13 @@
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-center">
     @for (game of games(); track game.id) {
       <div class="col">
-        <div class="card h-100 game-card">
+        <div class="card h-100 game-card position-relative">
+          <a
+            [routerLink]="['/games', game.id, 'edit']"
+            class="btn btn-sm btn-outline-primary position-absolute top-0 end-0 m-2"
+          >
+            Edit
+          </a>
           <div class="card-body">
             <h5 class="card-title">{{ game.title }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Studio: {{ game.studio.name }}</h6>

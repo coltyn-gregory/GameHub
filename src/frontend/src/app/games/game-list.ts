@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Game, Platform, Studio } from './game';
@@ -6,7 +7,7 @@ import { GameService } from './game-service';
 
 @Component({
   selector: 'app-game-list',
-  imports: [NgbAlertModule],
+  imports: [NgbAlertModule, RouterLink],
   templateUrl: './game-list.html',
   styleUrl: './game-list.scss'
 })

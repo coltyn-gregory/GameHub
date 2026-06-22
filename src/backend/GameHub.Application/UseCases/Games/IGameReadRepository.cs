@@ -6,4 +6,8 @@ public interface IGameReadRepository
         string? platformId,
         string? studioId,
         CancellationToken cancellationToken = default);
+
+    Task<GameReadModel?> GetByIdAsync(
+        string id,
+        CancellationToken cancellationToken = default);
 }

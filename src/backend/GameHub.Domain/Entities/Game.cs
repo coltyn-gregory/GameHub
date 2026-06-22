@@ -41,4 +41,14 @@ public sealed class Game : Entity
         StudioId = studioId;
         PlatformIds = platformIds.ToList();
     }
+
+    public void Update(
+        Title title,
+        StudioId studioId,
+        IEnumerable<PlatformId> platformIds)
+    {
+        Title = title;
+        StudioId = studioId;
+        PlatformIds = platformIds.ToList();
+    }
 }

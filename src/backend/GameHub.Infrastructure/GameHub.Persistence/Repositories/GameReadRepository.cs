@@ -1,5 +1,6 @@
 using GameHub.Application.UseCases.Games;
 using GameHub.Domain.Entities;
+using GameHub.Domain.ValueObjects.Game;
 using GameHub.Domain.ValueObjects.Studio;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,20 @@ public sealed class GameReadRepository(GameHubDbContext dbContext) : IGameReadRe
         string StudioId,
         List<string> PlatformIds);
 
-    public async Task<IReadOnlyCollection<GameReadModel>> GetAsync(
+    public async Task<GameReadModel?> GetByIdAsync(
+        string id,
+        CancellationToken cancellationToken = default)
+    {
+        GameId gameId = new(id);
+
+        IReadOnlyCollection<GameReadModel> games = await QueryAsync(
+            dbContext.Games.Where(game => game.Id == gameId),
+            cancellationToken);
+
+        return games.SingleOrDefault();
+    }
+
+    public Task<IReadOnlyCollection<GameReadModel>> GetAsync(
         string? platformId,
         string? studioId,
         CancellationToken cancellationToken = default)
@@ -31,7 +45,14 @@ public sealed class GameReadRepository(GameHubDbContext dbContext) : IGameReadRe
             query = query.Where(game => game.StudioId == studioIdValue);
         }
 
-        List<GameProjection> games = await query
+        return QueryAsync(query, cancellationToken);
+    }
+
+    private async Task<IReadOnlyCollection<GameReadModel>> QueryAsync(
+        IQueryable<Game> source,
+        CancellationToken cancellationToken)
+    {
+        List<GameProjection> games = await source
             .AsNoTracking()
             .Select(game => new GameProjection(
                 game.Id.Value,

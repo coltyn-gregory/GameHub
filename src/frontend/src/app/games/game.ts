@@ -14,3 +14,9 @@ export interface Game {
   studio: Studio;
   platforms: Platform[];
 }
+
+export interface UpdateGameRequest {
+  title: string;
+  studioId: string;
+  platformIds: string[];
+}
