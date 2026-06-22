@@ -6,10 +6,10 @@ namespace GameHub.Persistence.Repositories;
 public sealed class GameReadRepository(GameHubDbContext dbContext) : IGameReadRepository
 {
     private sealed record GameProjection(
-        Guid Id,
+        string Id,
         string Title,
-        Guid StudioId,
-        List<Guid> PlatformIds);
+        string StudioId,
+        List<string> PlatformIds);
 
     public async Task<IReadOnlyCollection<GameReadModel>> GetAllAsync(
         CancellationToken cancellationToken = default)
@@ -23,11 +23,11 @@ public sealed class GameReadRepository(GameHubDbContext dbContext) : IGameReadRe
                 game.PlatformIds.Select(platform => platform.Value).ToList()))
             .ToListAsync(cancellationToken);
 
-        Dictionary<Guid, string> platformNames = await dbContext.Platforms
+        Dictionary<string, string> platformNames = await dbContext.Platforms
             .AsNoTracking()
             .ToDictionaryAsync(p => p.Id.Value, p => p.Name.Value, cancellationToken);
 
-        Dictionary<Guid, string> studioNames = await dbContext.Studios
+        Dictionary<string, string> studioNames = await dbContext.Studios
             .AsNoTracking()
             .ToDictionaryAsync(s => s.Id.Value, s => s.Name.Value, cancellationToken);
 

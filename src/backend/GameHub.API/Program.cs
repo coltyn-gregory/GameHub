@@ -22,6 +22,7 @@ internal static class Program
         if (app.Environment.IsDevelopment())
         {
             await app.Services.ApplyMigrationsAsync();
+            await app.Services.SeedAsync();
         }
 
         app.UseMiddlewarePipeline();

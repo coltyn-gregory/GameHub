@@ -1,3 +1,5 @@
+using GameHub.Application.UseCases.Games;
+using GameHub.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,8 @@ public static class DependencyInjection
             options.UseSqlServer(
                 configuration.GetConnectionString("GameHub"),
                 sql => sql.MigrationsAssembly(typeof(GameHubDbContext).Assembly.FullName)));
+
+        services.AddScoped<IGameReadRepository, GameReadRepository>();
 
         return services;
     }
