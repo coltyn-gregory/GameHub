@@ -1,6 +1,7 @@
 using GameHub.API.Models;
 using GameHub.Application.UseCases.Games;
 using GameHub.Application.UseCases.Games.GetAllGames;
+using GameHub.Application.UseCases.Games.GetGamesByPlatform;
 
 using MediatR;
 
@@ -14,10 +15,13 @@ public sealed class GameController(ISender sender) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IReadOnlyCollection<GameResponse>>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll(
+        [FromQuery] string? platformId,
+        CancellationToken cancellationToken)
     {
-        IReadOnlyCollection<GameReadModel> games =
-            await sender.Send(new GetAllGamesQuery(), cancellationToken);
+        IReadOnlyCollection<GameReadModel> games = string.IsNullOrWhiteSpace(platformId)
+            ? await sender.Send(new GetAllGamesQuery(), cancellationToken)
+            : await sender.Send(new GetGamesByPlatformQuery(platformId), cancellationToken);
 
         List<GameResponse> response = games
             .Select(game => new GameResponse(

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"frontend status: %{http_code}\\\\n\" http://localhost:4200)",
+      "Bash(docker compose *)",
+      "Bash(curl -s \"http://localhost:8080/api/games\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:',len\\(d\\)\\); pc=[p['id'] for g in d for p in g['platforms'] if p['name']=='PC'][:1]; print\\('PC id:', pc[0] if pc else 'none'\\)\")",
+      "Bash(echo \"=== filter by PC \\(server-side\\) ===\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('PC games:',len\\(d\\)\\)\")",
+      "Bash(echo \"=== filter by Xbox ===\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Xbox games:',len\\(d\\),'| titles:',[g['title'] for g in d]\\)\")"
+    ]
+  }
+}

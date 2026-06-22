@@ -1,5 +1,22 @@
+<div class="row justify-content-center mb-4">
+  <div class="col-12 col-md-6 col-lg-4">
+    <label for="platformFilter" class="form-label">Filter by platform</label>
+    <select
+      id="platformFilter"
+      class="form-select"
+      [value]="selectedPlatformId()"
+      (change)="onPlatformChange($any($event.target).value)"
+    >
+      <option value="">All platforms</option>
+      @for (platform of platforms(); track platform.id) {
+        <option [value]="platform.id">{{ platform.name }}</option>
+      }
+    </select>
+  </div>
+</div>
+
 @if (loading()) {
-  <p class="text-muted">Loading games…</p>
+  <p class="text-center text-muted">Loading games…</p>
 } @else if (error()) {
   <ngb-alert type="danger" [dismissible]="false">{{ error() }}</ngb-alert>
 } @else {
