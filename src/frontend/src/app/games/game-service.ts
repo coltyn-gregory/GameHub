@@ -9,12 +9,14 @@ export class GameService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = '/api/games';
 
-  getAll(): Observable<Game[]> {
-    return this.http.get<Game[]>(this.baseUrl);
-  }
-
-  getByPlatform(platformId: string): Observable<Game[]> {
-    const params = new HttpParams().set('platformId', platformId);
+  getGames(platformId?: string, studioId?: string): Observable<Game[]> {
+    let params = new HttpParams();
+    if (platformId) {
+      params = params.set('platformId', platformId);
+    }
+    if (studioId) {
+      params = params.set('studioId', studioId);
+    }
     return this.http.get<Game[]>(this.baseUrl, { params });
   }
 }

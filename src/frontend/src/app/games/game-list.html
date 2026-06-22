@@ -1,5 +1,5 @@
-<div class="row justify-content-center mb-4">
-  <div class="col-12 col-md-6 col-lg-4">
+<div class="row justify-content-center mb-4 g-3">
+  <div class="col-12 col-md-4 col-lg-3">
     <label for="platformFilter" class="form-label">Filter by platform</label>
     <select
       id="platformFilter"
@@ -10,6 +10,20 @@
       <option value="">All platforms</option>
       @for (platform of platforms(); track platform.id) {
         <option [value]="platform.id">{{ platform.name }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-12 col-md-4 col-lg-3">
+    <label for="studioFilter" class="form-label">Filter by studio</label>
+    <select
+      id="studioFilter"
+      class="form-select"
+      [value]="selectedStudioId()"
+      (change)="onStudioChange($any($event.target).value)"
+    >
+      <option value="">All studios</option>
+      @for (studio of studios(); track studio.id) {
+        <option [value]="studio.id">{{ studio.name }}</option>
       }
     </select>
   </div>

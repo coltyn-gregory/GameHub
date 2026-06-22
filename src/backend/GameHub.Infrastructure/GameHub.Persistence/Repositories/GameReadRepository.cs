@@ -1,5 +1,6 @@
 using GameHub.Application.UseCases.Games;
 using GameHub.Domain.Entities;
+using GameHub.Domain.ValueObjects.Studio;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameHub.Persistence.Repositories;
@@ -12,22 +13,25 @@ public sealed class GameReadRepository(GameHubDbContext dbContext) : IGameReadRe
         string StudioId,
         List<string> PlatformIds);
 
-    public Task<IReadOnlyCollection<GameReadModel>> GetAllAsync(
+    public async Task<IReadOnlyCollection<GameReadModel>> GetAsync(
+        string? platformId,
+        string? studioId,
         CancellationToken cancellationToken = default)
-        => QueryAsync(dbContext.Games, cancellationToken);
-
-    public Task<IReadOnlyCollection<GameReadModel>> GetByPlatformAsync(
-        string platformId,
-        CancellationToken cancellationToken = default)
-        => QueryAsync(
-            dbContext.Games.Where(game => game.PlatformIds.Any(p => p.Value == platformId)),
-            cancellationToken);
-
-    private async Task<IReadOnlyCollection<GameReadModel>> QueryAsync(
-        IQueryable<Game> source,
-        CancellationToken cancellationToken)
     {
-        List<GameProjection> games = await source
+        IQueryable<Game> query = dbContext.Games;
+
+        if (!string.IsNullOrWhiteSpace(platformId))
+        {
+            query = query.Where(game => game.PlatformIds.Any(p => p.Value == platformId));
+        }
+
+        if (!string.IsNullOrWhiteSpace(studioId))
+        {
+            StudioId studioIdValue = new(studioId);
+            query = query.Where(game => game.StudioId == studioIdValue);
+        }
+
+        List<GameProjection> games = await query
             .AsNoTracking()
             .Select(game => new GameProjection(
                 game.Id.Value,
