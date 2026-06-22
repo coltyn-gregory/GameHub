@@ -1,0 +1,25 @@
+@if (loading()) {
+  <p class="text-muted">Loading games…</p>
+} @else if (error()) {
+  <ngb-alert type="danger" [dismissible]="false">{{ error() }}</ngb-alert>
+} @else {
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-center">
+    @for (game of games(); track game.id) {
+      <div class="col">
+        <div class="card h-100 game-card">
+          <div class="card-body">
+            <h5 class="card-title">{{ game.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Studio: {{ game.studio.name }}</h6>
+            <div class="d-flex flex-wrap gap-1 mt-2">
+              @for (platform of game.platforms; track platform.id) {
+                <span class="badge text-bg-secondary">{{ platform.name }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <p class="text-muted">No games found.</p>
+    }
+  </div>
+}

@@ -32,5 +32,18 @@ services:
     ports:
       - "8080:8080"
 
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.dev
+    container_name: gamehub-frontend
+    depends_on:
+      - api
+    volumes:
+      - ./src/frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+
 volumes:
   gamehub-mssql-data:
